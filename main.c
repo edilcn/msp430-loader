@@ -18,7 +18,7 @@
  */
 
 #define WRITE_SEG_AND_CRC   0
-#define load_memory 0
+#define load_memory 1
 
 #define BITFILE_SIZE    40704
 #pragma PERSISTENT(protect)
@@ -56,50 +56,19 @@ int main(void)
     P2SEL0 |= BIT0 | BIT1;                    // USCI_A0 UART operation
     P2SEL1 &= ~(BIT0 | BIT1);
 #endif
-    //RESET FPGA
-    P3DIR |= BIT3;
-    P3OUT &= ~BIT3;
 
-    //on led mcu
-    P8DIR |= BIT1;
-    P8OUT |= BIT1;
-
-    __delay_cycles(4 * 1000000);
-
+#ifdef target
     //ENABLE MEMORY CHIP SELECT
-    P10DIR |= BIT0;
-    P10OUT |= BIT0;
+    P5DIR |= BIT7;
+    P5OUT |= BIT7;
     __delay_cycles(1000);
-    P10OUT &= ~BIT0;
-
-    //MUX SEL ->FPGA
-    P9DIR |= BIT6;
-#if load_memory
-    P9OUT &= ~BIT6; // mcu
+    P5OUT &= ~BIT7;
 #else
-    P9OUT |= BIT6;  //fpga
+    P2DIR |= BIT4;
+    P2OUT |= BIT4;
+    __delay_cycles(1000);
+    P2OUT &= ~BIT4;
 #endif
-
-    //RESET FPGA
-    P3DIR |= BIT3;
-    P3OUT &= ~BIT3;
-    __delay_cycles(1 * 1000000);
-    P3OUT |= BIT3;  //POWER ON FPGA (SET 1 TO RESET)
-#if load_memory
-#else
-
-    do{
-        status2 = P3IN & (BIT4 | BIT5);
-    }while(status2 != 32);
-#endif
-
-    //RESET UTMC APLICATION
-    P6DIR |= BIT4;
-    P6OUT |= BIT4;
-    __delay_cycles(1 * 1000000);
-    P6OUT &= ~BIT4;
-    __delay_cycles(1 * 1000000);
-    P6OUT |= BIT4;
 
 #if !load_memory
     // Startup clock system with max DCO setting ~8MHz
@@ -142,7 +111,7 @@ int main(void)
     spi_setup();
     memory_setup();
 
-    volatile uint8_t id[3];
+    volatile uint8_t id[5];
     memory_id((uint8_t*) id);
 
 
@@ -188,7 +157,7 @@ int main(void)
 #endif
 
 #if load_memory
-    uint8_t data2[1024];
+    uint8_t data2[1024] = {0x00};
     memory_read(0, data2, 1000);
     memory_read(1000, data2, 1000);
     memory_read(1572864, data2, 1000);
@@ -199,19 +168,24 @@ int main(void)
     {
         __no_operation();
         __delay_cycles(1 * 1000000);
-        P8OUT ^= BIT1;
         i++;
 #if !load_memory
         __delay_cycles(1 * 15000000);
 //        P6IN;
 //        PCIN_H;
+#ifdef target
         status = P6IN & BIT5;
         status2 = P3IN & (BIT4 | BIT5);
+#else
+#endif
+        if (i <= sizeof(cmd))
+            UCA0TXBUF = cmd[i];
         //telecommand
         if(a >= sizeof(cmd))
         {
             a = 1;
             UCA0TXBUF = cmd[0];
+            UCA0TXBUF = cmd[1];
         }
         //lachup
 //        if(i > 20)

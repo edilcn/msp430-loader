@@ -13,10 +13,15 @@
 //#define MEMORY_CE_DIR       P5DIR
 //#define MEMORY_CE_OUT       P5OUT
 //#define MEMORY_CE_PIN       BIT7
-#define MEMORY_CE_DIR       P10DIR
-#define MEMORY_CE_OUT       P10OUT
-#define MEMORY_CE_PIN       BIT0
-
+#ifdef target
+#define MEMORY_CE_DIR       P5DIR
+#define MEMORY_CE_OUT       P5OUT
+#define MEMORY_CE_PIN       BIT7
+#else
+#define MEMORY_CE_DIR       P2DIR
+#define MEMORY_CE_OUT       P2OUT
+#define MEMORY_CE_PIN       BIT4
+#endif
 /*
 #define MEMORY_CE_DIR       P1DIR
 #define MEMORY_CE_OUT       P1OUT

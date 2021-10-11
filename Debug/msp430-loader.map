@@ -1,7 +1,7 @@
 ******************************************************************************
-                  MSP430 Linker PC v20.2.1                     
+                  MSP430 Linker Unix v20.2.2                   
 ******************************************************************************
->> Linked Mon Oct 11 13:14:44 2021
+>> Linked Mon Oct 11 17:48:17 2021
 
 OUTPUT FILE NAME:   <msp430-loader.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs_mpu"  address: 0000e83c
@@ -79,7 +79,7 @@ MEMORY CONFIGURATION
   INT53                 0000fffa   00000002  00000002  00000000  RWIX
   INT54                 0000fffc   00000002  00000002  00000000  RWIX
   RESET                 0000fffe   00000002  00000002  00000000  RWIX
-  FRAM2                 00010000   00013ff8  000002b0  00013d48  RWIX
+  FRAM2                 00010000   00013ff8  00000478  00013b80  RWIX
 
 
 SECTION ALLOCATION MAP
@@ -242,35 +242,51 @@ SYSNMI     0    0000fffc    00000002
 .reset     0    0000fffe    00000002     
                   0000fffe    00000002     rts430x_lc_rd_eabi.lib : boot.c.obj (.reset)
 
-.text      0    00010000    000002b0     
-                  00010000    00000188     main.obj (.text:main)
-                  00010188    00000076     rts430x_lc_rd_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  000101fe    00000054                            : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
-                  00010252    0000002c     MSPMPU_INIT_LIB_CCS_msp430_large_code_restricted_data.lib : mpu_init.o (.text:__mpu_init)
-                  0001027e    00000014     rts430x_lc_rd_eabi.lib : memcpy.c.obj (.text:memcpy)
-                  00010292    00000012                            : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  000102a4    00000006                            : exit.c.obj (.text:abort)
-                  000102aa    00000004                            : pre_init.c.obj (.text:_system_pre_init)
-                  000102ae    00000002                            : startup.c.obj (.text:_system_post_cinit)
+.text      0    00010000    00000478     
+                  00010000    0000011e     main.obj (.text:main)
+                  0001011e    0000008a     flash_memory.obj (.text:memory_page_program)
+                  000101a8    00000076     rts430x_lc_rd_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  0001021e    00000066     flash_memory.obj (.text:memory_read)
+                  00010284    00000054     rts430x_lc_rd_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
+                  000102d8    0000004c     flash_memory.obj (.text:memory_id)
+                  00010324    0000002e     spi.obj (.text:spi_setup)
+                  00010352    0000002c     MSPMPU_INIT_LIB_CCS_msp430_large_code_restricted_data.lib : mpu_init.o (.text:__mpu_init)
+                  0001037e    00000024     flash_memory.obj (.text:memory_status)
+                  000103a2    0000001e     flash_memory.obj (.text:memory_chip_erase)
+                  000103c0    00000018     spi.obj (.text:spi_read_byte)
+                  000103d8    00000016     rts430x_lc_rd_eabi.lib : memset.c.obj (.text:memset)
+                  000103ee    00000014                            : memcpy.c.obj (.text:memcpy)
+                  00010402    00000014     spi.obj (.text:spi_write_byte)
+                  00010416    00000012     rts430x_lc_rd_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  00010428    00000012     flash_memory.obj (.text:memory_disable)
+                  0001043a    00000012     flash_memory.obj (.text:memory_enable)
+                  0001044c    00000012     flash_memory.obj (.text:memory_write_enable)
+                  0001045e    0000000e     flash_memory.obj (.text:memory_setup)
+                  0001046c    00000006     rts430x_lc_rd_eabi.lib : exit.c.obj (.text:abort)
+                  00010472    00000004                            : pre_init.c.obj (.text:_system_pre_init)
+                  00010476    00000002                            : startup.c.obj (.text:_system_post_cinit)
 
 MODULE SUMMARY
 
        Module                       code   ro data   rw data
        ------                       ----   -------   -------
-    .\
-       main.obj                     452    2         41036  
+    ./
+       main.obj                     346    2         41036  
+       flash_memory.obj             450    0         0      
+       spi.obj                      90     0         0      
     +--+----------------------------+------+---------+---------+
-       Total:                       452    2         41036  
+       Total:                       886    2         41036  
                                                             
-    F:\ti\ccs1011\ccs\ccs_base\msp430\lib\FR59xx\MSPMPU_INIT_LIB_CCS_msp430_large_code_restricted_data.lib
+    /opt/ti/ccs1020/ccs/ccs_base/msp430/lib/FR59xx/MSPMPU_INIT_LIB_CCS_msp430_large_code_restricted_data.lib
        mpu_init.o                   44     0         0      
     +--+----------------------------+------+---------+---------+
        Total:                       44     0         0      
                                                             
-    F:\ti\ccs1011\ccs\tools\compiler\ti-cgt-msp430_20.2.1.LTS\lib\rts430x_lc_rd_eabi.lib
+    /opt/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/lib/rts430x_lc_rd_eabi.lib
        copy_decompress_lzss.c.obj   118    0         0      
        autoinit.c.obj               84     0         0      
        boot.c.obj                   32     2         0      
+       memset.c.obj                 22     0         0      
        memcpy.c.obj                 20     0         0      
        copy_decompress_none.c.obj   18     0         0      
        isr_trap.asm.obj             8      0         0      
@@ -305,12 +321,12 @@ MODULE SUMMARY
        int54.asm.obj                0      2         0      
        startup.c.obj                2      0         0      
     +--+----------------------------+------+---------+---------+
-       Total:                       292    56        0      
+       Total:                       314    56        0      
                                                             
        Stack:                       0      0         160    
        Linker Generated:            0      91        0      
     +--+----------------------------+------+---------+---------+
-       Grand Total:                 788    149       41196  
+       Grand Total:                 1244   149       41196  
 
 
 LINKER GENERATED COPY TABLES
@@ -587,7 +603,7 @@ address   name
 000009ce  AESAXIN_L                              
 000004be  BCD2BIN                                
 000004bc  BIN2BCD                                
-000102a4  C$$EXIT                                
+0001046c  C$$EXIT                                
 0000043e  CAPTIO0CTL                             
 0000043f  CAPTIO0CTL_H                           
 0000043e  CAPTIO0CTL_L                           
@@ -1716,9 +1732,9 @@ address   name
 0000e8b0  __TI_Handler_Table_Base                
 0000e8b8  __TI_Handler_Table_Limit               
 0000e85c  __TI_ISR_TRAP                          
-000101fe  __TI_auto_init_nobinit_nopinit_hold_wdt
-00010188  __TI_decompress_lzss                   
-00010292  __TI_decompress_none                   
+00010284  __TI_auto_init_nobinit_nopinit_hold_wdt
+000101a8  __TI_decompress_lzss                   
+00010416  __TI_decompress_none                   
 0000ffc6  __TI_int27                             
 0000ffc8  __TI_int28                             
 0000ffca  __TI_int29                             
@@ -1752,14 +1768,14 @@ ffffffff  __TI_prof_data_size
 ffffffff  __TI_prof_data_start                   
 ffffffff  __c_args__                             
 00000001  __mpu_enable                           
-00010252  __mpu_init                             
+00010352  __mpu_init                             
 0000e83c  _c_int00_noargs_mpu                    
 0000fffe  _reset_vector                          
 00002360  _stack                                 
-000102ae  _system_post_cinit                     
-000102aa  _system_pre_init                       
+00010476  _system_post_cinit                     
+00010472  _system_pre_init                       
 00001c4a  a                                      
-000102a4  abort                                  
+0001046c  abort                                  
 00001c4b  b                                      
 00001c00  cmd                                    
 00001c44  data                                   
@@ -1768,12 +1784,25 @@ ffffffff  __c_args__
 00004400  fram_rw_start                          
 0000e800  fram_rx_start                          
 00010000  main                                   
-0001027e  memcpy                                 
+000103ee  memcpy                                 
+000103a2  memory_chip_erase                      
+00010428  memory_disable                         
+0001043a  memory_enable                          
+000102d8  memory_id                              
+0001011e  memory_page_program                    
+0001021e  memory_read                            
+0001045e  memory_setup                           
+0001037e  memory_status                          
+0001044c  memory_write_enable                    
+000103d8  memset                                 
 0000a501  mpu_ctl0_value                         
 00001513  mpu_sam_value                          
 00000e80  mpu_segment_border1                    
 00000e80  mpu_segment_border2                    
 0000e400  protect                                
+000103c0  spi_read_byte                          
+00010324  spi_setup                              
+00010402  spi_write_byte                         
 00001c48  status                                 
 00001c49  status2                                
 
@@ -3215,18 +3244,31 @@ address   name
 0000fffc  __TI_int54                             
 0000fffe  _reset_vector                          
 00010000  main                                   
-00010188  __TI_decompress_lzss                   
-000101fe  __TI_auto_init_nobinit_nopinit_hold_wdt
-00010252  __mpu_init                             
-0001027e  memcpy                                 
-00010292  __TI_decompress_none                   
-000102a4  C$$EXIT                                
-000102a4  abort                                  
-000102aa  _system_pre_init                       
-000102ae  _system_post_cinit                     
+0001011e  memory_page_program                    
+000101a8  __TI_decompress_lzss                   
+0001021e  memory_read                            
+00010284  __TI_auto_init_nobinit_nopinit_hold_wdt
+000102d8  memory_id                              
+00010324  spi_setup                              
+00010352  __mpu_init                             
+0001037e  memory_status                          
+000103a2  memory_chip_erase                      
+000103c0  spi_read_byte                          
+000103d8  memset                                 
+000103ee  memcpy                                 
+00010402  spi_write_byte                         
+00010416  __TI_decompress_none                   
+00010428  memory_disable                         
+0001043a  memory_enable                          
+0001044c  memory_write_enable                    
+0001045e  memory_setup                           
+0001046c  C$$EXIT                                
+0001046c  abort                                  
+00010472  _system_pre_init                       
+00010476  _system_post_cinit                     
 ffffffff  __TI_pprof_out_hndl                    
 ffffffff  __TI_prof_data_size                    
 ffffffff  __TI_prof_data_start                   
 ffffffff  __c_args__                             
 
-[1446 symbols]
+[1459 symbols]

@@ -2,9 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-SHELL = cmd.exe
-
-CG_TOOL_ROOT := F:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS
+CG_TOOL_ROOT := /opt/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
@@ -21,8 +19,8 @@ $(GEN_CMDS__FLAG) \
 
 -include ../makefile.init
 
-RM := DEL /F
-RMDIR := RMDIR /S/Q
+RM := rm -rf
+RMDIR := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
@@ -144,14 +142,14 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 msp430-loader.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: MSP430 Linker'
-	"F:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/bin/cl430" -vmspx --data_model=restricted --use_hw_mpy=F5 --advice:power=all --advice:hw_config=all --define=__MSP430FR6989__ --define=_MPU_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"msp430-loader.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"F:/ti/ccs1011/ccs/ccs_base/msp430/include" -i"F:/ti/ccs1011/ccs/ccs_base/msp430/lib/5xx_6xx_FRxx" -i"F:/ti/ccs1011/ccs/ccs_base/msp430/lib/FR59xx" -i"F:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/lib" -i"F:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include" --priority --reread_libs --define=_MPU_ENABLE --diag_wrap=off --display_error_number --warn_sections --xml_link_info="msp430-loader_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "msp430-loader.out" $(ORDERED_OBJS)
+	"/opt/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/bin/cl430" -vmspx --data_model=restricted --use_hw_mpy=F5 --advice:power=all --advice:hw_config=all --define=__MSP430FR6989__ --define=_MPU_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"msp430-loader.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"/opt/ti/ccs1020/ccs/ccs_base/msp430/include" -i"/opt/ti/ccs1020/ccs/ccs_base/msp430/lib/5xx_6xx_FRxx" -i"/opt/ti/ccs1020/ccs/ccs_base/msp430/lib/FR59xx" -i"/opt/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/lib" -i"/opt/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/include" --priority --reread_libs --define=_MPU_ENABLE --diag_wrap=off --display_error_number --warn_sections --xml_link_info="msp430-loader_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "msp430-loader.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 msp430-loader.hex: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: MSP430 Hex Utility'
-	"F:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/bin/hex430" --memwidth=8 --romwidth=8 -o "msp430-loader.hex" $(EXE_OUTPUTS__QUOTED)
+	"/opt/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/bin/hex430" --memwidth=8 --romwidth=8 --diag_wrap=off -o "msp430-loader.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 

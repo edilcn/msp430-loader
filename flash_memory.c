@@ -68,6 +68,9 @@ void memory_id(uint8_t *id)
     id[0] = spi_read_byte();
     id[1] = spi_read_byte();
     id[2] = spi_read_byte();
+    id[3] = spi_read_byte();
+    id[4] = spi_read_byte();
+    id[5] = spi_read_byte();
 
     memory_disable();
 }
