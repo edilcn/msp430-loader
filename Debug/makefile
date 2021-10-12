@@ -2,7 +2,9 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-CG_TOOL_ROOT := /opt/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS
+SHELL = cmd.exe
+
+CG_TOOL_ROOT := F:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
@@ -11,6 +13,42 @@ ORDERED_OBJS += \
 "./flash_memory.obj" \
 "./main.obj" \
 "./spi.obj" \
+"./drivers/uart.obj" \
+"./hal/adc12_b.obj" \
+"./hal/aes256.obj" \
+"./hal/comp_e.obj" \
+"./hal/crc.obj" \
+"./hal/crc32.obj" \
+"./hal/cs.obj" \
+"./hal/dma.obj" \
+"./hal/esi.obj" \
+"./hal/eusci_a_spi.obj" \
+"./hal/eusci_a_uart.obj" \
+"./hal/eusci_b_i2c.obj" \
+"./hal/eusci_b_spi.obj" \
+"./hal/framctl.obj" \
+"./hal/framctl_a.obj" \
+"./hal/gpio.obj" \
+"./hal/hspll.obj" \
+"./hal/lcd_c.obj" \
+"./hal/mpu.obj" \
+"./hal/mpy32.obj" \
+"./hal/mtif.obj" \
+"./hal/pmm.obj" \
+"./hal/ram.obj" \
+"./hal/ref_a.obj" \
+"./hal/rtc_b.obj" \
+"./hal/rtc_c.obj" \
+"./hal/saph.obj" \
+"./hal/saph_a.obj" \
+"./hal/sdhs.obj" \
+"./hal/sfr.obj" \
+"./hal/sysctl.obj" \
+"./hal/timer_a.obj" \
+"./hal/timer_b.obj" \
+"./hal/tlv.obj" \
+"./hal/uups.obj" \
+"./hal/wdt_a.obj" \
 "../lnk_msp430fr6989.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibmpu_init.a \
@@ -19,13 +57,17 @@ $(GEN_CMDS__FLAG) \
 
 -include ../makefile.init
 
-RM := rm -rf
-RMDIR := rm -rf
+RM := DEL /F
+RMDIR := RMDIR /S/Q
 
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir_vars.mk
+-include drivers/subdir_vars.mk
+-include hal/subdir_vars.mk
 -include subdir_rules.mk
+-include drivers/subdir_rules.mk
+-include hal/subdir_rules.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -142,22 +184,22 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 msp430-loader.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: MSP430 Linker'
-	"/opt/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/bin/cl430" -vmspx --data_model=restricted --use_hw_mpy=F5 --advice:power=all --advice:hw_config=all --define=__MSP430FR6989__ --define=_MPU_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"msp430-loader.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"/opt/ti/ccs1020/ccs/ccs_base/msp430/include" -i"/opt/ti/ccs1020/ccs/ccs_base/msp430/lib/5xx_6xx_FRxx" -i"/opt/ti/ccs1020/ccs/ccs_base/msp430/lib/FR59xx" -i"/opt/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/lib" -i"/opt/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/include" --priority --reread_libs --define=_MPU_ENABLE --diag_wrap=off --display_error_number --warn_sections --xml_link_info="msp430-loader_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "msp430-loader.out" $(ORDERED_OBJS)
+	"F:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/bin/cl430" -vmspx --data_model=restricted --use_hw_mpy=F5 --advice:power=all --advice:hw_config=all --define=__MSP430FR6989__ --define=_MPU_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"msp430-loader.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"F:/ti/ccs1011/ccs/ccs_base/msp430/include" -i"F:/ti/ccs1011/ccs/ccs_base/msp430/lib/5xx_6xx_FRxx" -i"F:/ti/ccs1011/ccs/ccs_base/msp430/lib/FR59xx" -i"F:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/lib" -i"F:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include" --priority --reread_libs --define=_MPU_ENABLE --diag_wrap=off --display_error_number --warn_sections --xml_link_info="msp430-loader_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "msp430-loader.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 msp430-loader.hex: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: MSP430 Hex Utility'
-	"/opt/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/bin/hex430" --memwidth=8 --romwidth=8 --diag_wrap=off -o "msp430-loader.hex" $(EXE_OUTPUTS__QUOTED)
+	"F:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/bin/hex430" --memwidth=8 --romwidth=8 -o "msp430-loader.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "flash_memory.obj" "main.obj" "spi.obj" 
-	-$(RM) "flash_memory.d" "main.d" "spi.d" 
+	-$(RM) "flash_memory.obj" "main.obj" "spi.obj" "drivers\uart.obj" "hal\adc12_b.obj" "hal\aes256.obj" "hal\comp_e.obj" "hal\crc.obj" "hal\crc32.obj" "hal\cs.obj" "hal\dma.obj" "hal\esi.obj" "hal\eusci_a_spi.obj" "hal\eusci_a_uart.obj" "hal\eusci_b_i2c.obj" "hal\eusci_b_spi.obj" "hal\framctl.obj" "hal\framctl_a.obj" "hal\gpio.obj" "hal\hspll.obj" "hal\lcd_c.obj" "hal\mpu.obj" "hal\mpy32.obj" "hal\mtif.obj" "hal\pmm.obj" "hal\ram.obj" "hal\ref_a.obj" "hal\rtc_b.obj" "hal\rtc_c.obj" "hal\saph.obj" "hal\saph_a.obj" "hal\sdhs.obj" "hal\sfr.obj" "hal\sysctl.obj" "hal\timer_a.obj" "hal\timer_b.obj" "hal\tlv.obj" "hal\uups.obj" "hal\wdt_a.obj" 
+	-$(RM) "flash_memory.d" "main.d" "spi.d" "drivers\uart.d" "hal\adc12_b.d" "hal\aes256.d" "hal\comp_e.d" "hal\crc.d" "hal\crc32.d" "hal\cs.d" "hal\dma.d" "hal\esi.d" "hal\eusci_a_spi.d" "hal\eusci_a_uart.d" "hal\eusci_b_i2c.d" "hal\eusci_b_spi.d" "hal\framctl.d" "hal\framctl_a.d" "hal\gpio.d" "hal\hspll.d" "hal\lcd_c.d" "hal\mpu.d" "hal\mpy32.d" "hal\mtif.d" "hal\pmm.d" "hal\ram.d" "hal\ref_a.d" "hal\rtc_b.d" "hal\rtc_c.d" "hal\saph.d" "hal\saph_a.d" "hal\sdhs.d" "hal\sfr.d" "hal\sysctl.d" "hal\timer_a.d" "hal\timer_b.d" "hal\tlv.d" "hal\uups.d" "hal\wdt_a.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

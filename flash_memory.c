@@ -97,10 +97,15 @@ void memory_page_program(uint32_t address, uint8_t *data, uint16_t length)
 //    }
     for(i = 0; i < length; i = i+4)
     {
-        spi_write_byte(data[i+3]);
-        spi_write_byte(data[i+2]);
-        spi_write_byte(data[i+1]);
-        spi_write_byte(data[i]);
+        uint8_t writeData1, writeData2, writeData3, writeData4;
+        writeData1 = data[i+3];
+        writeData2 = data[i+2];
+        writeData3 = data[i+1];
+        writeData4 = data[i];
+        spi_write_byte(writeData1);
+        spi_write_byte(writeData2);
+        spi_write_byte(writeData3);
+        spi_write_byte(writeData4);
     }
 
     memory_disable();
