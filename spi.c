@@ -5,6 +5,7 @@
  *      Author: elder
  */
 #include "spi.h"
+#define target 1
 
 void spi_setup()
 {
