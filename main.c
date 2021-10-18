@@ -26,7 +26,7 @@
 uint32_t current_address = 0;
 uint32_t bytePosition = 0;
 volatile uint8_t RX_Buffer[buffer_size] = {0xCA,0xFE,0xCA,0xFE,0xCA,0xFE,0xCA,0xFE,0xCA,0xFE,0xCA,0xFE,0xCA,0xFE,0xCA,0xFE,0xCA,0xFE,0xCA,0xFE,0xCA,0xFE,0xCA,0xFE,0xCA,0xFE,0xCA,0xFE,0xCA,0xFE,0xCA,0xFE,0xCA,0xFE,0xCA,0xFE};
-#define target 1
+//#define target 1
 
 // Size of Bitstream
 #define BITFILE_SIZE    40704
@@ -73,10 +73,16 @@ int main(void)
     __delay_cycles(1000);
     P5OUT &= ~BIT7;
 #else
+    /*  Chip Select */
     P2DIR |= BIT4;
     P2OUT |= BIT4;
     __delay_cycles(1000);
     P2OUT &= ~BIT4;
+
+    /*  Led Debug   */
+    P1DIR |= BIT0;
+    P1OUT |= BIT0;
+    P1OUT &= ~BIT0;
 #endif
     FRCTL0 = FRCTLPW | NWAITS_1;
     uartInitialize();
@@ -112,9 +118,10 @@ int main(void)
     {
         // If you want to fill the memory with some data, comment this line below
         ////////////////////////////////////////////////////////////////////
-        uartReceiveData(buffer);
+//        uartReceiveData(buffer);
+        if (newData == true){
         ///////////////////////////////////////////////////////////////////
-
+            BIT_TOGGLE(P1OUT, BIT0);
             if (bytePosition > buffer_size){
                 doMemWrite = true;
             } else {
@@ -129,6 +136,11 @@ int main(void)
                 current_address = current_address + 256;
                 doMemWrite = false;
             }
+            __delay_cycles(1000);
+            BIT_TOGGLE(P1OUT, BIT0);
+        ///////////////////////////////////////////////////////////////////
+        }
+        ///////////////////////////////////////////////////////////////////
     }
 
     return 0;
@@ -148,7 +160,7 @@ int main(void)
 //  {
 //    case USCI_NONE: break;
 //    case USCI_UART_UCRXIFG:
-//      b = UCA0RXBUF;
+//      buffer = UCA0RXBUF;
 //      UCA0TXBUF = UCA0RXBUF;
 //      newData = true;
 //      __no_operation();
@@ -158,6 +170,27 @@ int main(void)
 //    case USCI_UART_UCTXCPTIFG: break;
 //  }
 //}
+
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#pragma vector=USCI_A0_VECTOR
+__interrupt
+#elif defined(__GNUC__)
+__attribute__((interrupt(USCI_A0_VECTOR)))
+#endif
+void USCI_A0_ISR(void)
+{
+  switch(__even_in_range(UCA0IV,USCI_UART_UCTXCPTIFG))
+  {
+    case USCI_NONE: break;
+    case USCI_UART_UCRXIFG:
+      buffer = EUSCI_A_UART_receiveData(EUSCI_A0_BASE);
+      newData = true;
+      break;
+    case USCI_UART_UCTXIFG: break;
+    case USCI_UART_UCSTTIFG: break;
+    case USCI_UART_UCTXCPTIFG: break;
+  }
+}
 
 
 //#if !load_memory

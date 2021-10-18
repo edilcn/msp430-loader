@@ -9,7 +9,7 @@
 #define HAL_H_
 
 #include <msp430.h>
-#define target 1
+//#define target 1
 
 //#define MEMORY_CE_DIR       P5DIR
 //#define MEMORY_CE_OUT       P5OUT

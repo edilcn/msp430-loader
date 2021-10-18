@@ -17,12 +17,10 @@ uint8_t *buffer_pointer;
 // UART Data Transmition
 void uartSendData(uint8_t *dados)
 {
-    uint8_t counter = 0;
     uint8_t temp1;
 //    while (counter != data_length){
 //        temp1 = *dados++;
         temp1 = *dados;
-        counter++;
         EUSCI_A_UART_transmitData(EUSCI_A0_BASE, temp1);
 //    }
 }
@@ -66,5 +64,10 @@ void uartInitialize(void)
 
     EUSCI_A_UART_enable(EUSCI_A0_BASE);
 
-    __enable_interrupt();
+    EUSCI_A_UART_clearInterrupt(EUSCI_A0_BASE, EUSCI_A_UART_RECEIVE_INTERRUPT_FLAG);
+
+    EUSCI_A_UART_enableInterrupt(EUSCI_A0_BASE, EUSCI_A_UART_RECEIVE_INTERRUPT);
+
+    __enable_interrupt;
+
 }
